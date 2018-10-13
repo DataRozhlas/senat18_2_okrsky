@@ -1,0 +1,8 @@
+vfr2ogr --file C:\Users\datastory\Downloads\20180903_ST_UVOH.xml.gz --format GPKG --layer VolebniOkrsek --geom OriginalniHranice --dsn okrsky.gpkg
+---------------
+
+tippecanoe -o tiles.mbtiles -z 15 -pk -pC -b 20 -pS -pt map.json 
+
+mb-util tiles.mbtiles ./tiles --image_format=pbf
+
+aws s3 cp ./tiles s3://datarozhlas/senat18_2_okrsky/tiles --recursive --acl public-read
