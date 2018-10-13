@@ -1,5 +1,5 @@
 title: "Jak se volilo ve vašem okrsku? Prohlédněte si nejpodrobnější mapu výsledků druhého kola senátních voleb"
-perex: "Interaktivní mapa, kam server iROZHLAS.cz zakreslil výsledek druhého kola senátních voleb v každém jednotlivém okrsku, ukazuje do nejmenších podrobností, kde ve druhém kole uspěli – a kde naopak pohořeli – všichni kandidáti do Senátu."
+perex: "Interaktivní mapa, kam server iROZHLAS.cz zakreslil výsledek druhého kola senátních voleb v každém jednotlivém okrsku, ukazuje do nejmenších podrobností, kde uspěli – a kde naopak pohořeli – všichni kandidáti do Senátu."
 authors: ["Jan Cibulka", "Petr Kočí"]
 published: "14. října 2018"
 coverimg: https://data.irozhlas.cz/obce18-okrsky/media/okrsky.png
@@ -11,7 +11,7 @@ options: "" #wide, noheader (+nopic)
 
 <wide>
 <div id="mapdiv">
-	<div id="tooltip">Myší vyberte obec.</div>
+	<div id="tooltip">Myší vyberte okrsek</div>
 	<div id="map" class="map"></div>
 	 <form action="?" id='frm-geocode'>
 	  <label for="inp-geocode">Najít adresu</label>
