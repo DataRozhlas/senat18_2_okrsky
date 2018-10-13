@@ -271,13 +271,13 @@
 var partyCols={166:'darkgray',768:'#cab2d6',53:'#1f78b4',7:'#ff7f00',720:'black',1:'#fdbf6f',47:'#e31a1c',};function getColor(props){var kands=JSON.parse(props.result.replace(/\'/g,'"')).sort(function(a,b){return b.hlasy-a.hlasy});var col='#006d2c';try{var party=kandidati[props.CIS_OBVOD+'_'+kands[0].id].VSTRANA;if(party in partyCols){col=partyCols[party];}}catch{}
 var style=new ol.style.Style({stroke:new ol.style.Stroke({color:"lightgray",width:0.3}),fill:new ol.style.Fill({color:col})})
 return style;};function makeTooltip(evt){var kands=JSON.parse(evt.result.replace(/\'/g,'"')).sort(function(a,b){return b.hlasy-a.hlasy});var kand1=kandidati[evt.CIS_OBVOD+'_'+kands[0].id]
-var kand2=kandidati[evt.CIS_OBVOD+'_'+kands[1].id]
-var blabol='<b>Okrsek č. '+evt['Cislo']+', '+(evt['Momc']||evt['Obec'])+'</b>, okres '+evt['Okres']+'<br>'
+var kand2=null;if(kands[1]){kand2=kandidati[evt.CIS_OBVOD+'_'+kands[1].id]};var blabol='<b>Okrsek č. '+evt['Cislo']+', '+(evt['Momc']||evt['Obec'])+'</b>, okres '+evt['Okres']+'<br>'
 +'Zvítězil <span style="color: '+(partyCols[kand1.VSTRANA]||'#006d2c')+'; font-weight: bold;">'+kand1.JMENO+' '+kand1.PRIJMENI
-+' ('+partyNames[kand1.VSTRANA]+')</span> o '+(kands[0].hlasy-kands[1].hlasy)
++' ('+partyNames[kand1.VSTRANA]+')</span>'
+if(kand2!=null){blabol+=' o '+(kands[0].hlasy-kands[1].hlasy)
 +' hlasů (z '+evt.PLATNE_HLASY+') nad <span style="color: '+(partyCols[kand2.VSTRANA]||'#006d2c')+'; font-weight: bold;">'
-+kand2.JMENO+' '+kand2.PRIJMENI+' ('+partyNames[kand2.VSTRANA]+')</span><br>'
-+'Účast: '+Math.round((evt.ODEVZDANE_OBALKY/evt.ZAPSANI_VOLICI)*1000)/10+' %'
++kand2.JMENO+' '+kand2.PRIJMENI+' ('+partyNames[kand2.VSTRANA]+')</span>'}
+blabol+='<br>Účast: '+Math.round((evt.ODEVZDANE_OBALKY/evt.ZAPSANI_VOLICI)*1000)/10+' %'
 document.getElementById('tooltip').innerHTML=blabol};var tilegrid=ol.tilegrid.createXYZ({tileSize:512,maxZoom:15});var background=new ol.layer.Tile({source:new ol.source.TileImage({url:'https://interaktivni.rozhlas.cz/tiles/ton_b1/{z}/{x}/{y}.png',attributions:[new ol.Attribution({html:'obrazový podkres <a target="_blank" href="http://stamen.com">Stamen</a>, <a target="_blank" href="https://samizdat.cz">Samizdat</a>, data <a target="_blank" href="https://www.volby.cz">ČSÚ</a> a <a target="_blank" href="http://vdp.cuzk.cz/vdp/ruian/vymennyformatspecialni/vyhledej?vf.cr=U&_vf.vu=on&vf.vu=VOH&_vf.vu=on&search=Vyhledat">ČÚZK</a>'})]})})
 var labels=new ol.layer.Tile({source:new ol.source.TileImage({url:'https://interaktivni.rozhlas.cz/tiles/ton_l1/{z}/{x}/{y}.png',maxZoom:15})})
 function drawMap(){$('#map').empty()
