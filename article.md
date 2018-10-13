@@ -1,6 +1,6 @@
 title: "Jak se volilo ve vašem okrsku? Prohlédněte si nejpodrobnější mapu výsledků druhého kola senátních voleb"
 perex: "Detailní mapa volebních výsledků ukazuje něco chytrýho."
-authors: ["Jan Cibulka", "Michal Zlatkovský"]
+authors: ["Jan Cibulka"]
 published: "8. října 2018"
 coverimg: https://data.irozhlas.cz/obce18-okrsky/media/cover.png
 coverimg_note: ""
@@ -12,7 +12,7 @@ options: "" #wide, noheader (+nopic)
 Plky plky.
 
 <wide>
-<div>_Mapa ukazuje <b>volební okrsky</b>, tedy nejmenší možné rozčlenění volebních výsledků. Větší obce se dělí na více okrsků.<br>
+<div>Mapa ukazuje <b>volební okrsky</b>, tedy nejmenší možné rozčlenění volebních výsledků. Větší obce se dělí na více okrsků.<br>
 
 <div id="mapdiv">
 	<div id="tooltip">Myší vyberte obec.</div>

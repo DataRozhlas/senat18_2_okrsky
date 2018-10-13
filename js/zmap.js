@@ -69,20 +69,25 @@ function makeTooltip(evt) {
   var kands = JSON.parse(evt.result.replace(/\'/g, '"')).sort(function(a, b){
     return b.hlasy - a.hlasy
   });
-  var kand1 = kandidati[evt.CIS_OBVOD + '_' + kands[0].id]
+  var kand1 = null;
   var kand2 = null;
+  
+  if (kands[0]) {
+    kand1 = kandidati[evt.CIS_OBVOD + '_' + kands[0].id]
+  };
   if (kands[1]) {
     kand2 = kandidati[evt.CIS_OBVOD + '_' + kands[1].id]
   };
   
   var blabol = '<b>Okrsek č. ' + evt['Cislo'] + ', ' + (evt['Momc'] || evt['Obec']) + '</b>, okres ' + evt['Okres'] + '<br>'
-  + 'Zvítězil <span style="color: ' + (partyCols[kand1.VSTRANA] || '#006d2c') + '; font-weight: bold;">' + kand1.JMENO + ' ' + kand1.PRIJMENI 
-  + ' (' + partyNames[kand1.VSTRANA] + ')</span>'
 
+  if (kand1 != null) {
+    blabol += '<span style="color: ' + (partyCols[kand1.VSTRANA] || '#006d2c') + '; font-weight: bold;">' + kand1.JMENO + ' ' + kand1.PRIJMENI 
+    + ' (' + partyNames[kand1.VSTRANA] + ')</span>, ' + kands[0].hlasy + ' hlasů.<br>'
+  };
   if (kand2 != null) {
-    blabol += ' o ' + (kands[0].hlasy - kands[1].hlasy) 
-    + ' hlasů (z ' + evt.PLATNE_HLASY + ') nad <span style="color: ' + (partyCols[kand2.VSTRANA] || '#006d2c') + '; font-weight: bold;">' 
-    + kand2.JMENO + ' ' + kand2.PRIJMENI + ' (' + partyNames[kand2.VSTRANA] + ')</span>'
+    blabol += '<span style="color: ' + (partyCols[kand2.VSTRANA] || '#006d2c') + '; font-weight: bold;">' 
+    + kand2.JMENO + ' ' + kand2.PRIJMENI + ' (' + partyNames[kand2.VSTRANA] + ')</span>, ' + kands[1].hlasy + ' hlasů.'
   }
   
   blabol += '<br>Účast: ' + Math.round((evt.ODEVZDANE_OBALKY / evt.ZAPSANI_VOLICI) * 1000) / 10 + ' %'
