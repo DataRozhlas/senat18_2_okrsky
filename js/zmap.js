@@ -18,8 +18,8 @@ var partyNames = {
   1426: 'Piráti s LES',
   720: 'Piráti',
   659: 'TOP 09 a STAN',
-  1408: '',
-  1194: '',
+  1408: 'Libor Michálek - senátor',
+  1194: 'Hilšer do Senátu',
   1: 'KDU-ČSL',
   1306: 'ODS, STAN a STO',
   1321: 'Mikuláš Bek (ODS + ST)',
@@ -38,6 +38,9 @@ var partyCols = {
   720: 'black',
   1: '#fdbf6f',
   47: '#e31a1c',
+  1194: '#fb9a99',
+  1426: 'lightblue',
+  80: '#fb9a99'
 };
 
 function getColor(props) {
