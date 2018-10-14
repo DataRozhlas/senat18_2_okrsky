@@ -10,31 +10,38 @@ with open('article.md', encoding='utf-8') as text:
 
 art = yaml.load(header)
 
-#read options
-options = art['options'].split(", ")
-
-#names of authors
-tmp = ', '.join(art['authors'])
-art['authors'] = ' a '.join(tmp.rsplit(', ', 1))
-
-
 # format external JS links
-tmp = ''
+libout = ''
+styleout = ''
 
-libraries = {'jquery': 'https://unpkg.com/jquery@3.2.1'}
+libraries = {'jquery': 'https://code.jquery.com/jquery-3.3.1.min.js',
+             'highcharts': 'https://code.highcharts.com/highcharts.js',
+             'd3': 'https://d3js.org/d3.v3.min.js',
+             'd3v5': 'https://d3js.org/d3.v5.min.js'}
 
 for lib in art['libraries']:
-    if lib in libraries: lib = libraries[lib]
-    tmp += '<script src="{0}"></script>\n'.format(lib)
-art['libraries'] = tmp
+    if lib == 'datatables':
+        libout += '<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>\n'
+        libout += '<script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>\n'
+        styleout += '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">\n'
+        styleout += '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">\n'
+        continue 
+
+    if lib == 'd3csv':
+        libout += '<script src="https://d3js.org/d3-dsv.v1.min.js"></script>\n'
+        libout += '<script src="https://d3js.org/d3-fetch.v1.min.js"></script>\n'
+        continue
+
+    if lib in libraries:
+        lib = libraries[lib]
+    libout += '<script src="{0}"></script>\n'.format(lib)
+art['libraries'] = libout
 
 
 # format external CSS links 
-tmp = ''
 for style in art['styles']:
-    tmp += '<link rel="stylesheet" type="text/css" href="{0}">\n'.format(style)
-art['styles'] = tmp
-
+    styleout += '<link rel="stylesheet" type="text/css" href="{0}">\n'.format(style)
+art['styles'] = styleout
 
 # <wide> pseudotag
 main = main.replace('<wide>','</div><div class="row-main row-main--article">')
@@ -53,9 +60,9 @@ art['content'] = markdown.markdown(main)
 
 
 #read snowfall template
-if "noheader" in options: 
+if "noheader" in art['options']: 
     template_file = './templates/snowfall_noheader.html'
-    if "nopic" in options:
+    if "nopic" in art['options']:
         art['mainphoto'] = ""
     else:
         art['mainphoto'] = '<figure class="b-detail__img"><img src="' + art['coverimg'] + '" width="100%" /><figcaption>' + art['coverimg_note'] + '</figcaption></figure>'
@@ -65,17 +72,18 @@ with open(template_file, encoding='utf-8') as t:
     template = t.read()
 
 # option: wide
-if "wide" in options: 
+if "wide" in art['options']: 
     art['column'] = "<div class=\"row-main row-main--article\">"
 else:
     art['column'] = "<div class=\"row-main row-main--narrow\">"
 
 # pack styles
 temp = ''
-for style in os.listdir('./styles/'):
-    with open('./styles/' + style, encoding='utf-8') as css_file:
-        csmin = compress(css_file.read())
-        temp += csmin
+for style in sorted(os.listdir('./styles/')):
+    if style[-3:] == "css":
+        with open('./styles/' + style, encoding='utf-8') as css_file:
+            csmin = compress(css_file.read())
+            temp += csmin
 
 art['styles'] = art['styles'] + "<style>"+ temp + "</style>"
 
@@ -85,10 +93,11 @@ for variable in re.findall(r"\{(\w+)\}", template):
 
 # pack JSscripts
 temp = ''
-for script in os.listdir('./js/'):
-    with open('./js/' + script, encoding='utf-8') as js_file:
-        jmin = jsmin(js_file.read())
-        temp += jmin
+for script in sorted(os.listdir('./js/')):
+    if script[-2:] == "js":
+        with open('./js/' + script, encoding='utf-8') as js_file:
+            jmin = jsmin(js_file.read())
+            temp += '\n' + jmin
 
 template = template + '<script>' + temp + '</script>\n' 
 
